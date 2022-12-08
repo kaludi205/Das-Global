@@ -5,7 +5,7 @@
      *     FechaRegistro: Date,
      *     PaisId: Number,
      *     Nombre: String,
-     *     Pais: String,
+     *     Pais: pais,
      * }}  empresa
      */
 
@@ -41,6 +41,17 @@
             form: 'formCreate',
             method: 'post',
             rules: this.rules
+        });
+
+        this.formUpload = new FormsManager({
+            action: 'Empresas UploadFile',
+            form: 'formUpload',
+            method: 'post',
+            rules: {
+                file: {
+                    required: true
+                }
+            }
         });
 
         this.formEdit = new FormsManager({
@@ -86,6 +97,13 @@
                 self.create();
             }
         });
+        
+        $(this.formUpload.formulario).submit(event => {
+            event.preventDefault();
+            if (self.formUpload.isValid) {
+                self.upload();
+            }
+        });
 
         $(this.formEdit.formulario).submit(event => {
             event.preventDefault();
@@ -96,16 +114,20 @@
     }
 
     changeView(view = 'index') {
-        $('#cardIndex,#cardEdit,#cardCreate').hide();
+        $('#cardIndex,#cardEdit,#cardCreate,#cardUpload').hide();
         switch (view) {
             case 'create':
                 $('#cardCreate').show();
+                break;
+            case 'upload':
+                $('#cardUpload').show();
                 break;
             case 'edit':
                 $('#cardEdit').show();
                 break;
             default :
                 this.formEdit.clear();
+                this.formUpload.clear();
                 this.formCreate.clear();
                 $('#cardIndex').show();
         }
@@ -125,7 +147,7 @@
      */
     getRow(model) {
         let pais = this.paises.find(x => x.Id === model.PaisId);
-        
+
         return [
             `${pais.Codigo} - ${pais.Nombre}`,
             model.Nombre,
@@ -193,6 +215,30 @@
                 });
             }
         });
+    }
+
+    upload() {
+        const self = this;
+        this.swal2.question('create').then(result => {
+            if (result.value) {
+                self.formUpload.ajax(undefined, true).then(response => {
+                    /**
+                     * @type {empresa}
+                     */
+                    let empresa = response.data;
+                    
+                    let pais = this.paises.find(x => x.Id === empresa.PaisId);
+                    if (!pais){
+                        this.paises.push(empresa.Pais);
+                    } 
+                    
+                    self.modelItems.push(response.data);
+                    self.changeView();
+                    self.generateTable();
+                    self.swal2.successCreate();
+                });
+            }
+        })
     }
 
 }

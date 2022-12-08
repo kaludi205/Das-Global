@@ -92,3 +92,51 @@ $('form').each(function () {
     $(this).attr('autocomplete', 'off');
 });
 
+
+$("input[type='file']").each(function () {
+    $(this).dropify(
+        {
+            defaultFile: '',
+            maxFileSize: 0,
+            minWidth: 0,
+            maxWidth: 0,
+            minHeight: 0,
+            maxHeight: 0,
+            showRemove: true,
+            showLoader: true,
+            showErrors: true,
+            errorTimeout: 3000,
+            errorsPosition: 'overlay',
+            imgFileExtensions: ['png', 'jpg', 'jpeg'],
+            maxFileSizePreview: "4M",
+            allowedFormats: ['portrait', 'square', 'landscape'],
+            allowedFileExtensions: ['*'],
+            messages: {
+                'default': 'Arrastrar y soltar un archivo o haga clic aquí',
+                'replace': 'Arrastrar y soltar o haga clic en reemplazar',
+                'remove': 'Quitar',
+                'error': 'Vaya, sucedió algo malo.'
+            },
+            error: {
+                'fileSize': 'El tamaño del archivo es demasiado grande ({{ value }} máximo).',
+                'minWidth': 'El ancho de la imagen es demasiado pequeño ({{ value }}}px mínimo).',
+                'maxWidth': 'El ancho de la imagen es demasiado grande ({{ value }}}px máximo).',
+                'minHeight': 'La altura de la imagen es demasiado pequeña ({{ value }}}px mínimo).',
+                'maxHeight': 'La altura de la imagen es demasiado grande ({{ value }}px máximo).',
+                'imageFormat': 'El formato de imagen no está permitido ({{ value }} solamente).',
+                'fileExtension': 'El archivo no esta permitido ({{ value }} solamente).'
+            },
+            tpl: {
+                wrap: '<div  style="max-height: 110px;" class="dropify-wrapper"></div>',
+                loader: '<div class="dropify-loader"></div>',
+                message: '<div class="dropify-message"><span class="file-icon" /> <p>{{ default }}</p></div>',
+                preview:
+                    '<div class="dropify-preview"><span class="dropify-render"></span><div class="dropify-infos"><div class="dropify-infos-inner"><p class="dropify-infos-message">{{ replace }}</p></div></div></div>',
+                filename: '<p class="dropify-filename"><span class="dropify-filename-inner"></span></p>',
+                clearButton: '<button type="button" class="dropify-clear">{{ remove }}</button>',
+                errorLine: '<p class="dropify-error">{{ error }}</p>',
+                errorsContainer: '<div class="dropify-errors-container"><ul></ul></div>'
+            }
+        }
+    );
+});

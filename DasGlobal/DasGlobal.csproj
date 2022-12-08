@@ -135,6 +135,7 @@
     <Compile Include="Controllers\EmpresasController.cs" />
     <Compile Include="Controllers\PaisesController.cs" />
     <Compile Include="Controllers\SucursalesController.cs" />
+    <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -168,6 +169,10 @@
     <Compile Include="Models\Sucursale.cs">
       <DependentUpon>ModelDasGlobal.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UploadFile\ColaboradorUpload.cs" />
+    <Compile Include="Models\UploadFile\EmpresaFile.cs" />
+    <Compile Include="Models\UploadFile\SucursalFile.cs" />
+    <Compile Include="Models\UploadFile\UploadFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\RepoEmpleado.cs" />
@@ -181,7 +186,9 @@
     <Compile Include="Resources\ResourceSucursal.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Backup\DasGlobal.bak" />
     <Content Include="Backup\Script.sql" />
+    <Content Include="Backup\UploadFile.json" />
     <Content Include="Content\after-init-plugins.js" />
     <Content Include="Content\css\assets\flexmonster-icons.svg" />
     <Content Include="Content\css\assets\flexmonster-icons.ttf" />
@@ -281,6 +288,7 @@
     <Content Include="Views\Empresas\Index.cshtml" />
     <Content Include="Views\Empresas\_Create.cshtml" />
     <Content Include="Views\Empresas\_Edit.cshtml" />
+    <Content Include="Views\Empresas\_Upload.cshtml" />
     <Content Include="Views\Paises\Index.cshtml" />
     <Content Include="Views\Paises\_Create.cshtml" />
     <Content Include="Views\Paises\_Edit.cshtml" />

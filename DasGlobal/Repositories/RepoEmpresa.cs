@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using DasGlobal.Extensions;
 using DasGlobal.Models;
+using DasGlobal.Models.UploadFile;
 
 namespace DasGlobal.Repositories
 {
@@ -40,6 +41,72 @@ namespace DasGlobal.Repositories
             UoW.SaveChanges();
 
             return model;
+        }
+
+        public Empresa Create(UploadFile file)
+        {
+            file.empresa.pais = file.empresa.pais.CleanString();
+            var empresa = new Empresa
+                          {
+                              Nombre = file.empresa.nombre
+                          };
+
+            /**
+             * De no existir el país lo creamos 
+             */
+            var pais = UoW.RepoPais.All().FirstOrDefault(x => x.Nombre == file.empresa.pais);
+
+            if (pais == null)
+            {
+                pais = UoW.RepoPais.Create(new Pais
+                                           {
+                                               Nombre = file.empresa.pais,
+                                               Codigo = RepoUtils.GetKey(10)
+                                           });
+
+                empresa.PaisId = pais.Id;
+            }
+            else
+            {
+                if (NombreVerify(empresa)) throw new Exception("La empresa enviada ya existe");
+                empresa.PaisId = pais.Id;
+            }
+
+            /**
+             * Creamos la empresa
+             */
+            Create(empresa);
+
+            /**
+             * Creamos las sucursales
+             */
+            foreach (var sucursalFile in file.empresa.sucursales)
+            {
+                var sucursal = UoW.RepoSucursal.Create(new Sucursale
+                                                       {
+                                                           Nombre    = sucursalFile.nombre,
+                                                           Direccion = sucursalFile.direccion,
+                                                           Telefono  = sucursalFile.telefono,
+                                                           EmpresaId = empresa.Id
+                                                       });
+
+                /**
+                 * Creamos a los colaboradores
+                 */
+                foreach (var colaboradorFile in sucursalFile.colaboradores)
+                {
+                    UoW.RepoColaborador.Create(new Colaboradore
+                                               {
+                                                   Nombre     = colaboradorFile.nombre,
+                                                   Cui        = colaboradorFile.CUI,
+                                                   SucursalId = sucursal.Id
+                                               });
+                }
+            }
+
+            return Find(empresa.Id)
+                   .Include(x => x.Pais)
+                   .FirstOrDefault();
         }
 
         public Empresa Edit(Empresa modelRequest)

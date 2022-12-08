@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using DasGlobal.Classes;
+using DasGlobal.Extensions;
 
 namespace DasGlobal.Controllers
 {
@@ -38,9 +40,18 @@ namespace DasGlobal.Controllers
             return ResponseManager.UnprocessableEntity(message, externo);
         }
 
+        
+        
         public ActionResult UnprocessableEntity(List<string> mensajes, bool externo = false)
         {
             return ResponseManager.UnprocessableEntity(mensajes, externo);
+        }
+        
+        public ActionResult UnprocessableEntity(string title, List<string> mensajes, bool externo = false)
+        {
+            mensajes.ForEach(x => x.CleanString());
+
+            return ResponseManager.UnprocessableEntity(new List<string> { title }.Concat(mensajes.Distinct()).ToList(), externo);
         }
         
         public ActionResult UnprocessableEntity()
