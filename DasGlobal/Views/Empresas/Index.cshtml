@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Empresas";
+}
+
+<div class="card card-border border border-primary" id="cardIndex">
+    <div class="card-header text-center card-header blue darken-4 text-white">
+        <h4 class="card-title">
+            Empresas
+            <button data-title-pos="left" data-title="Agregar" class="btn button-card-add bg-success btn-circle my-0 py-0 btn-sm mx-0 px-0 text-white float-right waves-effect waves-light"
+                    onclick="instance.changeView('create')">
+                <i class="fas fa-plus-circle"></i>
+            </button>
+        </h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12" id="tableContainer"></div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_Create")
+@Html.Partial("_Edit")
+
+@section scripts
+{
+    <script src="/Content/js/scripts/app/empresas.js"></script>
+    <script >var instance = new Empresas(@Html.Raw(JsonConvert.SerializeObject(ViewBag.Data)))</script>
+}
