@@ -53,7 +53,7 @@
         this.table = new TablesManager('table', [
             {value: 'Nombre', class: 'all', type: 'S'},
             {value: 'Código', class: '', type: 'S'},
-            {value: 'Fecha de registro', class: '', type: 'DT'},
+            {value: 'Fecha de registro', class: 'all', type: 'DT'},
             {value: 'Opciones', class: 'all', type: 'NOT'}
         ]);
 

@@ -25,7 +25,7 @@ namespace DasGlobal.Repositories
         public bool CuiVerify(Colaboradore model)
         {
             model.Nombre = model.Nombre.CleanString();
-            return All().Any(x => x.Nombre     == model.Nombre     &&
+            return All().Any(x => x.Cui     == model.Cui     &&
                                   x.SucursalId == model.SucursalId &&
                                   x.Id         != model.Id);
         }

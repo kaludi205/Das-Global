@@ -63,7 +63,7 @@ namespace DasGlobal.Repositories
             return model;
         }
 
-        public int Delete(int id)
+        private int Delete(int id)
         {
             var model = Find(id).FirstOrDefault();
             if (model == null) throw new Exception("El país no existe");
