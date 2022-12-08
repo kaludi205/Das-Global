@@ -5,13 +5,13 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="3f54c38f30774ec4902bf941cbdbf35c" Name="Diagram1">
-        <EntityTypeShape EntityType="DasGlobalModel.Empleado" Width="1.5" PointX="7.5" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DasGlobalModel.Empresa" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DasGlobalModel.Pais" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DasGlobalModel.Sucursal" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
-        <AssociationConnector Association="DasGlobalModel.FK_Empleados_SucursalId" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DasGlobalModel.Sucursale" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="DasGlobalModel.FK_Empresas_PaisId" ManuallyRouted="false" />
         <AssociationConnector Association="DasGlobalModel.FK_Sucursales_EmpresaId" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DasGlobalModel.Colaboradore" Width="1.5" PointX="7.5" PointY="1.25" />
+        <AssociationConnector Association="DasGlobalModel.FK_Colaboradores_SucursalId" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

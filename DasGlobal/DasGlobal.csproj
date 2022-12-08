@@ -131,7 +131,7 @@
     <Compile Include="Classes\Utils.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BaseControllerResponses.cs" />
-    <Compile Include="Controllers\EmpleadosController.cs" />
+    <Compile Include="Controllers\ColaboradoresController.cs" />
     <Compile Include="Controllers\EmpresasController.cs" />
     <Compile Include="Controllers\PaisesController.cs" />
     <Compile Include="Controllers\SucursalesController.cs" />
@@ -140,10 +140,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\DasGlobalEntities.cs" />
-    <Compile Include="Models\Empleado.cs">
+    <Compile Include="Models\Colaboradore.cs">
       <DependentUpon>ModelDasGlobal.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DasGlobalEntities.cs" />
     <Compile Include="Models\Empresa.cs">
       <DependentUpon>ModelDasGlobal.tt</DependentUpon>
     </Compile>
@@ -165,7 +165,7 @@
     <Compile Include="Models\Pais.cs">
       <DependentUpon>ModelDasGlobal.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Sucursal.cs">
+    <Compile Include="Models\Sucursale.cs">
       <DependentUpon>ModelDasGlobal.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -181,6 +181,7 @@
     <Compile Include="Resources\ResourceSucursal.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Backup\Script.sql" />
     <Content Include="Content\after-init-plugins.js" />
     <Content Include="Content\css\assets\flexmonster-icons.svg" />
     <Content Include="Content\css\assets\flexmonster-icons.ttf" />
@@ -245,6 +246,7 @@
     <Content Include="Content\css\webfonts\fa-solid-900.ttf" />
     <Content Include="Content\css\webfonts\fa-solid-900.woff" />
     <Content Include="Content\css\webfonts\fa-solid-900.woff2" />
+    <Content Include="Content\js\scripts\app\colaboradores.js" />
     <Content Include="Content\js\scripts\app\empresas.js" />
     <Content Include="Content\js\scripts\app\paises.js" />
     <Content Include="Content\js\scripts\app\sucursales.js" />
@@ -273,6 +275,9 @@
       <DependentUpon>ModelDasGlobal.edmx</DependentUpon>
       <LastGenOutput>ModelDasGlobal.cs</LastGenOutput>
     </Content>
+    <Content Include="Views\Colaboradores\Index.cshtml" />
+    <Content Include="Views\Colaboradores\_Create.cshtml" />
+    <Content Include="Views\Colaboradores\_Edit.cshtml" />
     <Content Include="Views\Empresas\Index.cshtml" />
     <Content Include="Views\Empresas\_Create.cshtml" />
     <Content Include="Views\Empresas\_Edit.cshtml" />
@@ -297,8 +302,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Repositories\" />
-    <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="Models\ModelDasGlobal.edmx">

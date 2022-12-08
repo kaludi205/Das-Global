@@ -12,17 +12,17 @@ namespace DasGlobal.Repositories
         {
         }
 
-        public IQueryable<Sucursal> All()
+        public IQueryable<Sucursale> All()
         {
-            return UoW.Db.Sucursals;
+            return UoW.Db.Sucursales;
         }
 
-        public IQueryable<Sucursal> ByEmpresa(int id)
+        public IQueryable<Sucursale> ByEmpresa(int id)
         {
             return All().Where(x => x.EmpresaId == id);
         }
 
-        public bool NombreVerify(Sucursal model)
+        public bool NombreVerify(Sucursale model)
         {
             model.Nombre = model.Nombre.CleanString();
             return All().Any(x => x.Nombre    == model.Nombre    &&
@@ -30,28 +30,28 @@ namespace DasGlobal.Repositories
                                   x.Id        != model.Id);
         }
 
-        public IQueryable<Sucursal> Find(int id)
+        public IQueryable<Sucursale> Find(int id)
         {
-            return UoW.Db.Sucursals.Where(x => x.Id == id);
+            return UoW.Db.Sucursales.Where(x => x.Id == id);
         }
 
 
-        public Sucursal Create(Sucursal model)
+        public Sucursale Create(Sucursale model)
         {
             model.Nombre        = model.Nombre.CleanString();
             model.Direccion     = model.Direccion.CleanString();
             model.FechaRegistro = RepoUtils.Now();
 
-            UoW.Db.Sucursals.Add(model);
+            UoW.Db.Sucursales.Add(model);
             UoW.SaveChanges();
 
             return model;
         }
 
-        public Sucursal Edit(Sucursal modelRequest)
+        public Sucursale Edit(Sucursale modelRequest)
         {
             var model = Find(modelRequest.Id).FirstOrDefault();
-            if (model == null) throw new Exception("La sucursal no existe");
+            if (model == null) throw new Exception("La Sucursale no existe");
 
             model.Nombre    = modelRequest.Nombre.CleanString();
             model.Direccion = modelRequest.Direccion.CleanString();
@@ -67,9 +67,9 @@ namespace DasGlobal.Repositories
         public int Delete(int id)
         {
             var model = Find(id).FirstOrDefault();
-            if (model == null) throw new Exception("La sucursal no existe");
+            if (model == null) throw new Exception("La Sucursale no existe");
 
-            UoW.Db.Sucursals.Remove(model);
+            UoW.Db.Sucursales.Remove(model);
             UoW.SaveChanges();
 
             return id;

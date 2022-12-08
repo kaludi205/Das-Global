@@ -1,12 +1,12 @@
-﻿class Empresas extends Base {
+﻿class Colaboradores extends Base {
     /**
      * @typedef {{
      *     Id: Number,
      *     FechaRegistro: Date,
-     *     PaisId: Number,
+     *     SucursalId: Number,
      *     Nombre: String,
-     *     Pais: String,
-     * }}  empresa
+     *     Cui: String
+     * }}  colaborador
      */
 
     /**
@@ -17,50 +17,69 @@
         super();
         /**
          *
-         * @type {Array.<empresa>}
+         * @type {Array.<colaborador>}
          */
         this.modelItems = data.model || [];
         /**
          *
-         * @type {Array.<pais>}
+         * @type {Array.<empresa>}
          */
-        this.paises = data.paises || [];
+        this.empresas = data.empresas || [];
+        /**
+         *
+         * @type {Array.<sucursal>}
+         */
+        this.sucursales = data.sucursales || [];
 
         this.rules = {
             Nombre: {
-                "required": true,
-                "maxlength": 100
+                'required': true,
+                'maxlength': 100
             },
-            PaisId: {
-                "required": true
+            Cui: {
+                'required': true,
+                'digits': true,
+                'maxlength': 13
+            },
+            SucursalId: {
+                'required': true
             }
         };
 
         this.formCreate = new FormsManager({
-            action: 'Empresas Create',
+            action: 'Colaboradores Create',
             form: 'formCreate',
             method: 'post',
             rules: this.rules
         });
 
         this.formEdit = new FormsManager({
-            action: 'Empresas Edit',
+            action: 'Colaboradores Edit',
             form: 'formEdit',
             method: 'post',
             rules: this.rules
         });
 
         this.formDelete = new FormsManager({
-            action: 'Empresas Delete',
+            action: 'Colaboradores Delete',
             method: 'post'
         });
 
         this.table = new TablesManager('table', [
-            {value: 'País', class: '', type: ''},
-            {value: 'Nombre', class: 'all', type: 'S'},
+            {value: 'País', class: 'all', type: 'S'},
+            {value: 'Empresa', class: '', type: 'S'},
+            {value: 'Sucursal', class: '', type: 'S'},
+            {value: 'Nombre', class: '', type: 'S'},
+            {value: 'Cui', class: '', type: 'S'},
             {value: 'Fecha de registro', class: '', type: 'DT'},
             {value: 'Opciones', class: 'all', type: 'NOT'}
         ]);
+
+        /**
+         *
+         * @type {colaborador}
+         */
+        this.currentItem = undefined;
 
         this.initComponents();
     }
@@ -69,11 +88,11 @@
         this.initEvents();
 
         let html = '';
-        this.paises.forEach(item => {
-            html += `<option value="${item.Id}">${item.Codigo} - ${item.Nombre}</option>`;
+        this.empresas.forEach(item => {
+            html += `<option value="${item.Id}">${item.Pais.Codigo} - ${item.Pais.Nombre} / ${item.Nombre}</option>`;
         });
 
-        $('#PaisId,#PaisIdEdit').html(html).trigger('change');
+        $('#EmpresaId,#EmpresaIdEdit').html(html).trigger('change');
 
         this.generateTable();
     }
@@ -92,13 +111,39 @@
             if (self.formEdit.isValid) {
                 self.edit();
             }
+        });
+
+        $('#EmpresaId,#EmpresaIdEdit').on('change', function () {
+            let val = $(this).val();
+            
+            if (val) {
+                let sucursales = self.sucursales.filter(x => x.EmpresaId === parseInt(val));
+                
+                let html = '';
+                sucursales.forEach(item => {
+                    html += `<option value="${item.Id}">${item.Nombre}</option>`;
+                });
+
+                if (self.currentItem && sucursales.find(x => x.Id === self.currentItem.SucursalId)) {
+                    $('#SucursalId,#SucursalIdEdit').html(html).val(self.currentItem.SucursalId).trigger('change');
+                } else {
+                    $('#SucursalId,#SucursalIdEdit').html(html).trigger('change');
+                }
+
+
+            } else {
+                $('#SucursalId,#SucursalIdEdit').html('').trigger('change');
+            }
         })
     }
 
     changeView(view = 'index') {
         $('#cardIndex,#cardEdit,#cardCreate').hide();
+        
         switch (view) {
             case 'create':
+                this.currentItem = undefined;
+                this.formCreate.clear();
                 $('#cardCreate').show();
                 break;
             case 'edit':
@@ -106,7 +151,6 @@
                 break;
             default :
                 this.formEdit.clear();
-                this.formCreate.clear();
                 $('#cardIndex').show();
         }
     }
@@ -121,14 +165,19 @@
 
     /**
      *
-     * @param {empresa} model
+     * @param {colaborador} model
      */
     getRow(model) {
-        let pais = this.paises.find(x => x.Id === model.PaisId);
         
+        let sucursal = this.sucursales.find(x => x.Id === model.SucursalId);
+        let empresa = this.empresas.find(x => x.Id === sucursal.EmpresaId);
+
         return [
-            `${pais.Codigo} - ${pais.Nombre}`,
+            `${empresa.Pais.Codigo} - ${empresa.Pais.Nombre}`,
+            empresa.Nombre,
+            sucursal.Nombre,
             model.Nombre,
+            model.Cui,
             model.FechaRegistro,
             `<button onclick="instance.showEdit(${model.Id})" class="btn button-table-edit bg-warning btn-circle my-0 py-0 btn-sm mx-0 px-0 text-white" 
                 type="button" data-title="Editar" data-title-pos="left">
@@ -156,9 +205,12 @@
     }
 
     showEdit(id) {
-        let model = this.modelItems.find(x => x.Id === id);
-        $('#NombreEdit').val(model.Nombre).trigger('change');
-        $('#PaisIdEdit').val(model.PaisId).trigger('change');
+        this.currentItem = this.modelItems.find(x => x.Id === id);
+        let sucursal = this.sucursales.find(x => x.Id === this.currentItem.SucursalId);
+        
+        $('#NombreEdit').val(this.currentItem.Nombre).trigger('change');
+        $('#CuiEdit').val(this.currentItem.Cui).trigger('change');
+        $('#EmpresaIdEdit').val(sucursal.EmpresaId).trigger('change');
         $(`${this.formEdit.formulario} input[name="Id"]`).val(id);
         this.changeView('edit');
     }

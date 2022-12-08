@@ -6,23 +6,23 @@ using DasGlobal.Models;
 
 namespace DasGlobal.Repositories
 {
-    public class RepoEmpleado : BaseRepository
+    public class RepoColaborador : BaseRepository
     {
-        public RepoEmpleado(UoWRepository UoW) : base(UoW)
+        public RepoColaborador(UoWRepository UoW) : base(UoW)
         {
         }
 
-        public IQueryable<Empleado> All()
+        public IQueryable<Colaboradore> All()
         {
-            return UoW.Db.Empleados;
+            return UoW.Db.Colaboradores;
         }
 
-        public IQueryable<Empleado> BySucursal(int id)
+        public IQueryable<Colaboradore> BySucursal(int id)
         {
             return All().Where(x => x.SucursalId == id);
         }
 
-        public bool CuiVerify(Empleado model)
+        public bool CuiVerify(Colaboradore model)
         {
             model.Nombre = model.Nombre.CleanString();
             return All().Any(x => x.Nombre     == model.Nombre     &&
@@ -30,30 +30,32 @@ namespace DasGlobal.Repositories
                                   x.Id         != model.Id);
         }
 
-        public IQueryable<Empleado> Find(int id)
+        public IQueryable<Colaboradore> Find(int id)
         {
-            return UoW.Db.Empleados.Where(x => x.Id == id);
+            return UoW.Db.Colaboradores.Where(x => x.Id == id);
         }
 
 
-        public Empleado Create(Empleado model)
+        public Colaboradore Create(Colaboradore model)
         {
             model.Nombre        = model.Nombre.CleanString();
+            model.Cui           = model.Cui.CleanString();
             model.FechaRegistro = RepoUtils.Now();
 
-            UoW.Db.Empleados.Add(model);
+            UoW.Db.Colaboradores.Add(model);
             UoW.SaveChanges();
 
             return model;
         }
 
-        public Empleado Edit(Empleado modelRequest)
+        public Colaboradore Edit(Colaboradore modelRequest)
         {
             var model = Find(modelRequest.Id).FirstOrDefault();
             if (model == null) throw new Exception("El país no existe");
 
-            model.Nombre = modelRequest.Nombre.CleanString();
-            model.Cui    = modelRequest.Cui;
+            model.Nombre     = modelRequest.Nombre.CleanString();
+            model.Cui        = modelRequest.Cui.CleanString();
+            model.SucursalId = modelRequest.SucursalId;
 
             UoW.Db.Entry(model).State = EntityState.Modified;
             UoW.SaveChanges();
@@ -64,9 +66,9 @@ namespace DasGlobal.Repositories
         public int Delete(int id)
         {
             var model = Find(id).FirstOrDefault();
-            if (model == null) throw new Exception("La Empleado no existe");
+            if (model == null) throw new Exception("La Colaboradore no existe");
 
-            UoW.Db.Empleados.Remove(model);
+            UoW.Db.Colaboradores.Remove(model);
             UoW.SaveChanges();
 
             return id;

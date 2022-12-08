@@ -1,4 +1,4 @@
-﻿class Empresas extends Base {
+﻿class Sucursales extends Base {
     /**
      * @typedef {{
      *     Id: Number,
@@ -47,27 +47,30 @@
         };
 
         this.formCreate = new FormsManager({
-            action: 'Empresas Create',
+            action: 'Sucursales Create',
             form: 'formCreate',
             method: 'post',
             rules: this.rules
         });
 
         this.formEdit = new FormsManager({
-            action: 'Empresas Edit',
+            action: 'Sucursales Edit',
             form: 'formEdit',
             method: 'post',
             rules: this.rules
         });
 
         this.formDelete = new FormsManager({
-            action: 'Empresas Delete',
+            action: 'Sucursales Delete',
             method: 'post'
         });
 
         this.table = new TablesManager('table', [
-            {value: 'Nombre', class: 'all', type: 'S'},
-            {value: 'Código', class: '', type: 'S'},
+            {value: 'País', class: 'all', type: 'S'},
+            {value: 'Empresa', class: '', type: 'S'},
+            {value: 'Nombre', class: '', type: 'S'},
+            {value: 'Teléfono', class: '', type: 'phone'},
+            {value: 'Dirección', class: '', type: 'S'},
             {value: 'Fecha de registro', class: '', type: 'DT'},
             {value: 'Opciones', class: 'all', type: 'NOT'}
         ]);
@@ -82,7 +85,7 @@
         this.empresas.forEach(item => {
             html += `<option value="${item.Id}">${item.Pais.Codigo} - ${item.Pais.Nombre} / ${item.Nombre}</option>`;
         });
-        
+
         $('#EmpresaId,#EmpresaIdEdit').html(html).trigger('change');
 
         this.generateTable();
@@ -134,9 +137,14 @@
      * @param {sucursal} model
      */
     getRow(model) {
+        let empresa = this.empresas.find(x => x.Id === model.EmpresaId);
+        
         return [
-            this.paises.find(x => x.Id === model.PaisId).Nombre,
+            `${empresa.Pais.Codigo} - ${empresa.Pais.Nombre}`,
+            empresa.Nombre,
             model.Nombre,
+            model.Telefono,
+            model.Direccion,
             model.FechaRegistro,
             `<button onclick="instance.showEdit(${model.Id})" class="btn button-table-edit bg-warning btn-circle my-0 py-0 btn-sm mx-0 px-0 text-white" 
                 type="button" data-title="Editar" data-title-pos="left">
@@ -166,7 +174,9 @@
     showEdit(id) {
         let model = this.modelItems.find(x => x.Id === id);
         $('#NombreEdit').val(model.Nombre).trigger('change');
-        $('#PaisIdEdit').val(model.PaisId).trigger('change');
+        $('#EmpresaIdEdit').val(model.EmpresaId).trigger('change');
+        $('#TelefonoEdit').val(model.Telefono).trigger('change');
+        $('#DireccionEdit').val(model.Direccion).trigger('change');
         $(`${this.formEdit.formulario} input[name="Id"]`).val(id);
         this.changeView('edit');
     }

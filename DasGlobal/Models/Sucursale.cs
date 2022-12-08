@@ -12,12 +12,12 @@ namespace DasGlobal.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Sucursal
+    public partial class Sucursale
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Sucursal()
+        public Sucursale()
         {
-            this.Empleados = new HashSet<Empleado>();
+            this.Colaboradores = new HashSet<Colaboradore>();
         }
     
         public int Id { get; set; }
@@ -27,8 +27,8 @@ namespace DasGlobal.Models
         public string Telefono { get; set; }
         public System.DateTime FechaRegistro { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Empleado> Empleados { get; set; }
         public virtual Empresa Empresa { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Colaboradore> Colaboradores { get; set; }
     }
 }

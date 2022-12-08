@@ -12,7 +12,7 @@ namespace DasGlobal.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Empleado
+    public partial class Colaboradore
     {
         public int Id { get; set; }
         public int SucursalId { get; set; }
@@ -20,6 +20,6 @@ namespace DasGlobal.Models
         public string Cui { get; set; }
         public System.DateTime FechaRegistro { get; set; }
     
-        public virtual Sucursal Sucursal { get; set; }
+        public virtual Sucursale Sucursale { get; set; }
     }
 }

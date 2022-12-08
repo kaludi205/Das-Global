@@ -74,8 +74,8 @@ class Layout extends Base {
                 icon: 'fas fa-project-diagram'
             },
             {
-                name: 'Empleados',
-                link: 'Empleados',
+                name: 'Colaboradores',
+                link: 'Colaboradores',
                 icon: 'fas fa-users'
             }
         ];

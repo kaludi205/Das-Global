@@ -4,8 +4,8 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DasGlobalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="Empleados">
+    <Schema Namespace="DasGlobalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Colaboradores">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -44,14 +44,14 @@
           <Property Name="Telefono" Type="varchar" MaxLength="25" Nullable="false" />
           <Property Name="FechaRegistro" Type="datetime" Nullable="false" />
         </EntityType>
-        <Association Name="FK_Empleados_SucursalId">
+        <Association Name="FK_Colaboradores_SucursalId">
           <End Role="Sucursales" Type="Self.Sucursales" Multiplicity="1" />
-          <End Role="Empleados" Type="Self.Empleados" Multiplicity="*" />
+          <End Role="Colaboradores" Type="Self.Colaboradores" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Sucursales">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Empleados">
+            <Dependent Role="Colaboradores">
               <PropertyRef Name="SucursalId" />
             </Dependent>
           </ReferentialConstraint>
@@ -81,13 +81,13 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="DasGlobalModelStoreContainer">
-          <EntitySet Name="Empleados" EntityType="Self.Empleados" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Colaboradores" EntityType="Self.Colaboradores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empresas" EntityType="Self.Empresas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Paises" EntityType="Self.Paises" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sucursales" EntityType="Self.Sucursales" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Empleados_SucursalId" Association="Self.FK_Empleados_SucursalId">
+          <AssociationSet Name="FK_Colaboradores_SucursalId" Association="Self.FK_Colaboradores_SucursalId">
             <End Role="Sucursales" EntitySet="Sucursales" />
-            <End Role="Empleados" EntitySet="Empleados" />
+            <End Role="Colaboradores" EntitySet="Colaboradores" />
           </AssociationSet>
           <AssociationSet Name="FK_Empresas_PaisId" Association="Self.FK_Empresas_PaisId">
             <End Role="Paises" EntitySet="Paises" />
@@ -98,22 +98,10 @@
             <End Role="Sucursales" EntitySet="Sucursales" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DasGlobalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Empleado">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SucursalId" Type="Int32" Nullable="false" />
-          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Cui" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Sucursal" Relationship="Self.FK_Empleados_SucursalId" FromRole="Empleados" ToRole="Sucursales" />
-        </EntityType>
         <EntityType Name="Empresa">
           <Key>
             <PropertyRef Name="Id" />
@@ -135,7 +123,7 @@
           <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Empresas" Relationship="Self.FK_Empresas_PaisId" FromRole="Paises" ToRole="Empresas" />
         </EntityType>
-        <EntityType Name="Sucursal">
+        <EntityType Name="Sucursale">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -145,21 +133,9 @@
           <Property Name="Direccion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Telefono" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Empleados" Relationship="Self.FK_Empleados_SucursalId" FromRole="Sucursales" ToRole="Empleados" />
           <NavigationProperty Name="Empresa" Relationship="Self.FK_Sucursales_EmpresaId" FromRole="Sucursales" ToRole="Empresas" />
+          <NavigationProperty Name="Colaboradores" Relationship="DasGlobalModel.FK_Colaboradores_SucursalId" FromRole="Sucursal" ToRole="Colaboradore" />
         </EntityType>
-        <Association Name="FK_Empleados_SucursalId">
-          <End Role="Sucursales" Type="DasGlobalModel.Sucursal" Multiplicity="1" />
-          <End Role="Empleados" Type="Self.Empleado" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Sucursales">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Empleados">
-              <PropertyRef Name="SucursalId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Empresas_PaisId">
           <End Role="Paises" Type="Self.Pais" Multiplicity="1" />
           <End Role="Empresas" Type="Self.Empresa" Multiplicity="*" />
@@ -174,7 +150,7 @@
         </Association>
         <Association Name="FK_Sucursales_EmpresaId">
           <End Role="Empresas" Type="Self.Empresa" Multiplicity="1" />
-          <End Role="Sucursales" Type="DasGlobalModel.Sucursal" Multiplicity="*" />
+          <End Role="Sucursales" Type="DasGlobalModel.Sucursale" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Empresas">
               <PropertyRef Name="Id" />
@@ -185,40 +161,52 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="DasGlobalEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Empleados" EntityType="Self.Empleado" />
           <EntitySet Name="Empresas" EntityType="Self.Empresa" />
           <EntitySet Name="Paises" EntityType="Self.Pais" />
-          <EntitySet Name="Sucursals" EntityType="DasGlobalModel.Sucursal" />
-          <AssociationSet Name="FK_Empleados_SucursalId" Association="Self.FK_Empleados_SucursalId">
-            <End Role="Sucursales" EntitySet="Sucursals" />
-            <End Role="Empleados" EntitySet="Empleados" />
-          </AssociationSet>
+          <EntitySet Name="Sucursales" EntityType="DasGlobalModel.Sucursale" />
           <AssociationSet Name="FK_Empresas_PaisId" Association="Self.FK_Empresas_PaisId">
             <End Role="Paises" EntitySet="Paises" />
             <End Role="Empresas" EntitySet="Empresas" />
           </AssociationSet>
           <AssociationSet Name="FK_Sucursales_EmpresaId" Association="Self.FK_Sucursales_EmpresaId">
             <End Role="Empresas" EntitySet="Empresas" />
-            <End Role="Sucursales" EntitySet="Sucursals" />
+            <End Role="Sucursales" EntitySet="Sucursales" />
+          </AssociationSet>
+          <EntitySet Name="Colaboradores" EntityType="DasGlobalModel.Colaboradore" />
+          <AssociationSet Name="FK_Colaboradores_SucursalId" Association="DasGlobalModel.FK_Colaboradores_SucursalId">
+            <End Role="Sucursal" EntitySet="Sucursales" />
+            <End Role="Colaboradore" EntitySet="Colaboradores" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Colaboradore">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SucursalId" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Cui" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Sucursale" Relationship="DasGlobalModel.FK_Colaboradores_SucursalId" FromRole="Colaboradore" ToRole="Sucursal" />
+        </EntityType>
+        <Association Name="FK_Colaboradores_SucursalId">
+          <End Type="DasGlobalModel.Sucursale" Role="Sucursal" Multiplicity="1" />
+          <End Type="DasGlobalModel.Colaboradore" Role="Colaboradore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sucursal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Colaboradore">
+              <PropertyRef Name="SucursalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="DasGlobalModelStoreContainer" CdmEntityContainer="DasGlobalEntities">
-          <EntitySetMapping Name="Empleados">
-            <EntityTypeMapping TypeName="DasGlobalModel.Empleado">
-              <MappingFragment StoreEntitySet="Empleados">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="SucursalId" ColumnName="SucursalId" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Cui" ColumnName="Cui" />
-                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Empresas">
             <EntityTypeMapping TypeName="DasGlobalModel.Empresa">
               <MappingFragment StoreEntitySet="Empresas">
@@ -239,8 +227,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Sucursals">
-            <EntityTypeMapping TypeName="DasGlobalModel.Sucursal">
+          <EntitySetMapping Name="Sucursales">
+            <EntityTypeMapping TypeName="DasGlobalModel.Sucursale">
               <MappingFragment StoreEntitySet="Sucursales">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="EmpresaId" ColumnName="EmpresaId" />
@@ -248,6 +236,17 @@
                 <ScalarProperty Name="Direccion" ColumnName="Direccion" />
                 <ScalarProperty Name="Telefono" ColumnName="Telefono" />
                 <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Colaboradores">
+            <EntityTypeMapping TypeName="DasGlobalModel.Colaboradore">
+              <MappingFragment StoreEntitySet="Colaboradores">
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="Cui" ColumnName="Cui" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="SucursalId" ColumnName="SucursalId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

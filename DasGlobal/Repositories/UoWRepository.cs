@@ -11,14 +11,14 @@ namespace DasGlobal.Repositories
         private DasGlobalEntities _db;
         private RepoEmpresa       _repoEmpresa;
         private RepoPais          _repoPais;
-        private RepoEmpleado      _repoEmpleado;
+        private RepoColaborador   _repoColaborador;
         private RepoSucursal      _repoSucursal;
 
-        public RepoSucursal      RepoSucursal => _repoSucursal ??= new RepoSucursal(this);
-        public RepoEmpleado      RepoEmpleado => _repoEmpleado ??= new RepoEmpleado(this);
-        public RepoPais          RepoPais     => _repoPais ??= new RepoPais(this);
-        public RepoEmpresa       RepoEmpresa  => _repoEmpresa ??= new RepoEmpresa(this);
-        public DasGlobalEntities Db           => _db ??= new DasGlobalEntities(false);
+        public RepoSucursal      RepoSucursal    => _repoSucursal ??= new RepoSucursal(this);
+        public RepoColaborador   RepoColaborador => _repoColaborador ??= new RepoColaborador(this);
+        public RepoPais          RepoPais        => _repoPais ??= new RepoPais(this);
+        public RepoEmpresa       RepoEmpresa     => _repoEmpresa ??= new RepoEmpresa(this);
+        public DasGlobalEntities Db              => _db ??= new DasGlobalEntities(false);
 
         public DbContextTransaction GetTransaction()
         {

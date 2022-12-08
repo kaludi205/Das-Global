@@ -5,7 +5,7 @@
                     onclick="instance.changeView()">
                 <i class="fas fa-chevron-circle-left"></i>
             </button>
-            Editar sucursal
+            Editar colaborador
         </h4>
     </div>
     <div class="card-body">
@@ -16,10 +16,16 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="EmpresaIdEdit">Empresa</label>
-                        <select id="EmpresaIdEdit" class="form-control" name="EmpresaId"></select>
+                        <select id="EmpresaIdEdit" class="form-control"></select>
                     </div>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="SucursalIdEdit">Sucursal</label>
+                        <select id="SucursalIdEdit" class="form-control" name="SucursalId"></select>
+                    </div>
+                </div>
+                <div class="col-md-6">
                     <div class="input-type form-group">
                         <label for="NombreEdit">Nombre</label>
                         <input type="text" id="NombreEdit" class="form-control" name="Nombre"/>
@@ -27,14 +33,8 @@
                 </div>
                 <div class="col-md-4">
                     <div class="input-type form-group">
-                        <label for="TelefonoEdit">Teléfono</label>
-                        <input type="tel" id="TelefonoEdit" class="form-control" name="Telefono"/>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="input-type form-group">
-                        <label for="DireccionEdit">Dirección</label>
-                        <textarea rows="3" id="DireccionEdit" class="form-control md-textarea" name="Direccion"></textarea>
+                        <label for="CuiEdit">Cui</label>
+                        <input type="number" id="CuiEdit" class="form-control" name="Cui"/>
                     </div>
                 </div>
                 <div class="col-md-12 text-right">

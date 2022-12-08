@@ -23,19 +23,19 @@ namespace DasGlobal.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Nombre,EmpresaId,Direccion,Telefono")] Sucursal model)
+        public ActionResult Create([Bind(Include = "Nombre,EmpresaId,Direccion,Telefono")] Sucursale model)
         {
             return UoW.RepoSucursal.NombreVerify(model)
-                       ? UnprocessableEntity("La sucursal ya existe en la empresa seleccionado")
+                       ? UnprocessableEntity("La sucursal ya existe en la empresa seleccionada")
                        : SuccessResponse(UoW.RepoSucursal.Create(model).ToResource());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nombre,Direccion,Telefono,EmpresaId")] Sucursal model)
+        public ActionResult Edit([Bind(Include = "Id,Nombre,Direccion,Telefono,EmpresaId")] Sucursale model)
         {
             return UoW.RepoSucursal.NombreVerify(model)
-                       ? UnprocessableEntity("La sucursal ya existe en la empresa seleccionado")
+                       ? UnprocessableEntity("La sucursal ya existe en la empresa seleccionada")
                        : SuccessResponse(UoW.RepoSucursal.Edit(model).ToResource());
         }
 

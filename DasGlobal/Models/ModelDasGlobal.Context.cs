@@ -25,9 +25,9 @@ namespace DasGlobal.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Empleado> Empleados { get; set; }
         public virtual DbSet<Empresa> Empresas { get; set; }
         public virtual DbSet<Pais> Paises { get; set; }
-        public virtual DbSet<Sucursal> Sucursals { get; set; }
+        public virtual DbSet<Sucursale> Sucursales { get; set; }
+        public virtual DbSet<Colaboradore> Colaboradores { get; set; }
     }
 }
